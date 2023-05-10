@@ -30,9 +30,12 @@ CLANG_FORMAT_CACHE_FILES = $(foreach x,$(CODES),$(CLANG_FORMAT_CACHE_FOLDER)/$(x
 all: validate
 
 validate: format tests
-tests: cmake $(CACHE_DIR)/tests
 format: cmake $(CLANG_FORMAT_CACHE_FILES)
 cmake: $(BUILD_DIR)
+
+tests: cmake $(CODES)
+	cmake --build $(BUILD_DIR) -t $(TESTS_TARGET) $(CMAKE_BUILD_OPTIONS)
+	$(TESTS_EXECUTABLE) --order-by=rand
 
 clean:
 	cmake -D PATH:STRING=$(BUILD_DIR) -P ./cmake/rm.cmake
@@ -42,11 +45,6 @@ $(BUILD_DIR): $(CONFIGS) $(SOURCES) .clang-tidy
 
 $(CACHE_DIR):
 	cmake -D PATH:STRING=$(CACHE_DIR) -P ./cmake/mkdir-p.cmake
-
-$(CACHE_DIR)/tests: $(BUILD_DIR) $(CODES) $(CACHE_DIR)
-	cmake --build $(BUILD_DIR) -t $(TESTS_TARGET) $(CMAKE_BUILD_OPTIONS)
-	$(TESTS_EXECUTABLE) --order-by=rand
-	echo "" > $(CACHE_DIR)/tests
 
 $(CLANG_FORMAT_CACHE_FILES): $(CLANG_FORMAT_CACHE_FOLDER)/%.label: % .clang-format
 	cmake -D PATH:STRING=$(dir $@) -P ./cmake/mkdir-p.cmake
