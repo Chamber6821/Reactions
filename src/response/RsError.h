@@ -20,8 +20,6 @@ class RsError : public Response {
             return part;
         } catch (const std::exception &nestedException) {
             return part + stringify(nestedException, level + 1);
-        } catch (...) {
-            return part;
         }
     }
 
