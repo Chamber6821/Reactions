@@ -3,7 +3,7 @@
 //
 
 #include "RcWithEffect.h"
-#include "response/RsMapped.h"
+#include "Reactions/response/RsMapped.h"
 
 auto RcWithEffect::result(in<Command> command) -> out<Response> {
     return makeOut<RsMapped>([command, this](auto &output) {

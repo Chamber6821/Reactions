@@ -3,10 +3,10 @@
 //
 
 #include "NthArg.h"
-#include "misc/FirstWord.h"
-#include "misc/LeftTrimmed.h"
-#include "misc/StringOf.h"
-#include "misc/owning/make.h"
+#include "Reactions/misc/FirstWord.h"
+#include "Reactions/misc/LeftTrimmed.h"
+#include "Reactions/misc/StringOf.h"
+#include "Reactions/misc/owning/make.h"
 #include <stdexcept>
 #include <string>
 

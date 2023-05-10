@@ -4,15 +4,14 @@
 
 #pragma once
 
-#include "Response.h"
-#include "misc/StringOf.h"
-#include "misc/owning/in.h"
-#include "misc/owning/make.h"
+#include "Reactions/Response.h"
+#include "Reactions/misc/Scalar.h"
+#include "Reactions/misc/StringOf.h"
 #include <iostream>
 #include <string_view>
 
 class RsText : public Response {
-    in<Scalar<std::string_view>> str;
+    in<Scalar<std::string_view>> str{};
 
   public:
     explicit RsText(in<Scalar<std::string_view>> str) : str(std::move(str)) {}

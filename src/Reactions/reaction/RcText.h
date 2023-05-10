@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "Reaction.h"
-#include "misc/owning/makeOut.h"
-#include "response/RsText.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/misc/owning/makeOut.h"
+#include "Reactions/response/RsText.h"
 #include <string>
 
 class RcText : public Reaction {

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Front.h"
+#include "Reactions/Front.h"
 #include <string_view>
 
 class Welcome : public Front {

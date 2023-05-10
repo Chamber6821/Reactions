@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "Command.h"
+#include "Reactions/Command.h"
 #include "Scalar.h"
-#include "misc/owning/in.h"
+#include "owning/in.h"
 #include <string>
 
 class CommandAsString : public Scalar<std::string> {

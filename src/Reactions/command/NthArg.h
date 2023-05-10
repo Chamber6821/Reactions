@@ -5,8 +5,8 @@
 #pragma once
 
 #include "Argument.h"
-#include "Command.h"
-#include "misc/owning/in.h"
+#include "Reactions/Command.h"
+#include "Reactions/misc/owning/in.h"
 
 class NthArg : public Argument {
     in<Command> command{};

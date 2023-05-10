@@ -4,9 +4,10 @@
 
 #pragma once
 
-#include "Fork.h"
-#include "Reaction.h"
-#include "misc/owning/make.h"
+#include "Reactions/Fork.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/misc/owning/make.h"
+#include <stdexcept>
 
 class FkWithName : public Fork {
     std::string_view name;
@@ -22,7 +23,8 @@ class FkWithName : public Fork {
             return {reaction->result(std::move(command))};
         } catch (...) {
             std::throw_with_nested(
-                std::runtime_error("Failed to react to command"));
+                std::runtime_error("Failed to react to command")
+            );
         }
     }
 };

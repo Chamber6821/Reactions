@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Fork.h"
-#include "Reaction.h"
+#include "Reactions/Fork.h"
+#include "Reactions/Reaction.h"
 #include <vector>
 
 class RcFork : public Reaction {

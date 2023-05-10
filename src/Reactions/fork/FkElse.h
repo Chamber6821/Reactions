@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include "Fork.h"
+#include "Reactions/Fork.h"
+#include "Reactions/Reaction.h"
 
 class FkElse : public Fork {
     in<Reaction> reaction{};

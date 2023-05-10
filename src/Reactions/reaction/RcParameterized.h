@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "Parameter.h"
-#include "Reaction.h"
-#include "command/NthArg.h"
-#include "misc/owning/make.h"
-#include "response/RsEmpty.h"
+#include "Reactions/Parameter.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/command/NthArg.h"
+#include "Reactions/misc/owning/make.h"
+#include "Reactions/response/RsEmpty.h"
 #include <concepts>
 #include <functional>
 #include <tuple>

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Response.h"
+#include "Reactions/Response.h"
 
 class RsEmpty : public Response {
   public:

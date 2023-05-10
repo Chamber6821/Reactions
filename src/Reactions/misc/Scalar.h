@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "misc/Interface.h"
+#include "Interface.h"
 
 template <class T>
 class Scalar : public Interface {

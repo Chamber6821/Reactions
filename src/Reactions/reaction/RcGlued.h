@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Reaction.h"
-#include "response/RsGlued.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/response/RsGlued.h"
 #include <iterator>
 #include <ranges>
 #include <vector>

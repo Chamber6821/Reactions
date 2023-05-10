@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include "Reaction.h"
-#include "exit/ExFlag.h"
-#include "misc/owning/makeOut.h"
-#include "response/RsEmpty.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/exit/ExFlag.h"
+#include "Reactions/misc/owning/makeOut.h"
+#include "Reactions/response/RsEmpty.h"
 
 class RcExit : public Reaction {
     in<ExFlag> exit{};

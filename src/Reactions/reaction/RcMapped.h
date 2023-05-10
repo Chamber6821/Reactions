@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Reaction.h"
-#include "response/RsEmpty.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/response/RsEmpty.h"
 #include <functional>
 
 class RcMapped : public Reaction {

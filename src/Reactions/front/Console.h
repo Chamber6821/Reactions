@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include "Front.h"
-#include "Reaction.h"
-#include "command/CmLive.h"
-#include "misc/owning/make.h"
+#include "Reactions/Front.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/command/CmLive.h"
+#include "Reactions/misc/owning/make.h"
 #include <iostream>
 
 class Console : public Front {

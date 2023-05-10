@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Response.h"
-#include "misc/owning/in.h"
+#include "Reactions/Response.h"
+#include "Reactions/misc/owning/in.h"
 #include <iterator>
 #include <vector>
 

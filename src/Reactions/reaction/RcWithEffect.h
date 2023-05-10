@@ -5,14 +5,14 @@
 #pragma once
 
 #include "RcNothing.h"
-#include "Reaction.h"
-#include "misc/owning/in.h"
-#include "misc/owning/make.h"
-#include "misc/owning/out.h"
+#include "Reactions/Reaction.h"
+#include "Reactions/misc/owning/in.h"
+#include "Reactions/misc/owning/make.h"
+#include "Reactions/misc/owning/out.h"
 #include <functional>
 
 class RcWithEffect : public Reaction {
-    in<Reaction> reaction;
+    in<Reaction> reaction{};
     std::function<void(in<Command>)> effect;
 
   public:

@@ -3,7 +3,7 @@
 //
 
 #include "RcFork.h"
-#include "misc/CommandAsString.h"
+#include "Reactions/misc/CommandAsString.h"
 #include <stdexcept>
 
 auto RcFork::result(in<Command> command) -> out<Response> {

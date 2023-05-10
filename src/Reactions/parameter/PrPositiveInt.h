@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include "Command.h"
-#include "Parameter.h"
-#include "misc/owning/in.h"
-#include "misc/owning/make.h"
+#include "Reactions/Command.h"
+#include "Reactions/Parameter.h"
+#include "Reactions/misc/owning/in.h"
+#include "Reactions/misc/owning/make.h"
 #include <charconv>
 #include <stdexcept>
 

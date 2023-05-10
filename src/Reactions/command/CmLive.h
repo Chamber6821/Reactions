@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "Command.h"
-#include "misc/owning/in.h"
-#include "misc/owning/out.h"
+#include "Reactions/Command.h"
+#include "Reactions/misc/owning/in.h"
+#include "Reactions/misc/owning/out.h"
 #include <istream>
 #include <string>
 

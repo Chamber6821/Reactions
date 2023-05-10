@@ -10,4 +10,3 @@ else ()
 endif ()
 
 target_include_directories(${TARGET} PUBLIC .)
-target_include_directories(${TARGET} PRIVATE Reactions)
