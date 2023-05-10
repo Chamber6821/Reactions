@@ -8,7 +8,7 @@
 #include <string_view>
 
 class Command : public Interface {
-public:
+  public:
     virtual auto name() -> std::string_view = 0;
     virtual auto arguments() -> std::string_view = 0;
 };
