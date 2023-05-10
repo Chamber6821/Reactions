@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.25)
 project(Reactions CXX)
 
 set(MAIN_PROJECT OFF)
@@ -20,4 +20,10 @@ add_library(Reactions::Reactions ALIAS Reactions)
 if (${MAIN_PROJECT})
     add_subdirectory(tests)
     target_link_libraries(tests PRIVATE Reactions)
+
+    add_subdirectory(examples)
+    get_property(examples DIRECTORY "examples" PROPERTY BUILDSYSTEM_TARGETS)
+    foreach (example ${examples})
+        target_link_libraries(${example} PRIVATE Reactions)
+    endforeach ()
 endif ()
