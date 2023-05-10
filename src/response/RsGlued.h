@@ -6,13 +6,18 @@
 
 #include "Response.h"
 #include "misc/owning/in.h"
+#include <iterator>
 #include <vector>
 
 class RsGlued : public Response {
     std::vector<in<Response>> parts{};
 
   public:
-    RsGlued(std::initializer_list<in<Response>> parts) : parts(parts) {}
+    template <std::input_iterator Iterator>
+    RsGlued(Iterator begin, Iterator end) : parts(begin, end) {}
+
+    RsGlued(std::initializer_list<in<Response>> parts)
+        : RsGlued(parts.begin(), parts.end()) {}
 
     template <std::convertible_to<in<Response>>... Types>
     explicit RsGlued(Types... parts) : RsGlued({parts...}) {}
