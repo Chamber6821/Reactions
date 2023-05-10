@@ -5,26 +5,19 @@
 #pragma once
 
 #include "Response.h"
+#include "misc/StringOf.h"
+#include "misc/owning/in.h"
+#include "misc/owning/make.h"
 #include <iostream>
-#include <ranges>
 #include <string_view>
 
-template <class T>
-concept Printable = requires(T &x, std::ostream &out) {
-    { out << x };
-};
-
-template <std::ranges::range T>
-    requires Printable<std::ranges::range_value_t<T>>
 class RsText : public Response {
-    T printable;
+    in<Scalar<std::string_view>> str;
 
   public:
-    explicit RsText(T printable) : printable(printable) {}
+    explicit RsText(in<Scalar<std::string_view>> str) : str(std::move(str)) {}
 
-    void print(std::ostream &output) override {
-        for (const auto &part : printable) {
-            output << part;
-        }
-    }
+    explicit RsText(std::string_view str) : RsText(make<StringOf>(str)) {}
+
+    void print(std::ostream &output) override { output << str->value(); };
 };
