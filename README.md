@@ -63,7 +63,7 @@ include(FetchContent)
 FetchContent_Declare(
         Reactions
         GIT_REPOSITORY https://github.com/Chamber6821/Reactions.git
-        GIT_TAG v0.0.1
+        GIT_TAG 0.0.1
 )
 
 add_executable(${TARGET} app.cpp)
