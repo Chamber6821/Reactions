@@ -8,6 +8,12 @@ endif ()
 
 if (${MAIN_PROJECT})
     set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 endif ()
 
 if (${CMAKE_CXX_STANDARD} LESS 20)
@@ -29,14 +35,6 @@ if (${MAIN_PROJECT})
 
     add_subdirectory(it)
     target_link_libraries(it PRIVATE Reactions)
-
-    set_target_properties(
-            tests it
-            PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin
-    )
 
     add_subdirectory(examples)
     get_property(examples DIRECTORY "examples" PROPERTY BUILDSYSTEM_TARGETS)
