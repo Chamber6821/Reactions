@@ -34,7 +34,7 @@ jobs:
       - name: Lint
         run: make lint CONFIG=${{ matrix.config }}
       - name: Save CMake build folder
-        uses: actions/cache/save@3
+        uses: actions/cache/save@v3
         with:
           path: cmake-build-*/
           key: ${{ steps.cache.output.cache-primary-key }}
