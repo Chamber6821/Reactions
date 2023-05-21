@@ -1,0 +1,41 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ windows-2022, ubuntu-22.04 ]
+        config: [ config/debug.mk, config/release.mk ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get branch name
+        id: branches
+        uses: tj-actions/branch-names@v7
+      - name: Restore CMake build folder
+        id: cache
+        uses: actions/cache/restore@v3
+        with:
+          path: cmake-build-*/
+          key: cmake-${{ steps.branches.current_branch }}-${{ runner.os }}-${{ matrix.config }}
+      - name: Configure CMake
+        run: make cmake CONFIG=${{ matrix.config }}
+      - name: Build and Run tests
+        run: make tests CONFIG=${{ matrix.config }}
+      - name: Build and Run integration tests
+        run: make it CONFIG=${{ matrix.config }}
+      - name: Lint
+        run: make lint CONFIG=${{ matrix.config }}
+      - name: Save CMake build folder
+        uses: actions/cache/save@3
+        with:
+          path: cmake-build-*/
+          key: ${{ steps.cache.output.cache-primary-key }}
+

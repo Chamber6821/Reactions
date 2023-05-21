@@ -1,22 +1,10 @@
 
-include configuration.mk # user configuration for user platform
+CONFIG ?= config/release.mk
+include $(CONFIG) # user configuration for user platform
 
-MODE ?= Debug
-PERMISSIBLE_MODS=Debug Release
-ifeq ($(filter $(MODE), $(PERMISSIBLE_MODS)),)
-$(warning "Mode '$(MODE)' is not permissible!")
-$(warning "Permissible mods: $(PERMISSIBLE_MODS)")
-$(warning "Use 'make <target> MODE=Debug' or 'make <target> MODE=Release' to fix")
-$(error "Mode '$(MODE)' is not permissible!")
-endif
-MODE_LOWER = $(subst Debug,debug,$(subst Release,release,$(MODE)))
-$(MODE) = ON
-
-TESTS_TARGET = tests
-
-BUILD_DIR = $(BUILD_DIR_PREFIX)$(MODE_LOWER)
+BUILD_DIR ?= build
+FAST_BUILD_DIR ?= $(BUILD_DIR)-fast
 CACHE_DIR = $(BUILD_DIR)/make-cache
-TESTS_EXECUTABLE = "$(BUILD_DIR)/$(TESTS_TARGET)/$(TESTS_TARGET)"
 
 HEADERS = $(wildcard src/**/*.h)
 SOURCES = $(wildcard src/**/*.cpp tests/**/*.cpp)
@@ -26,22 +14,39 @@ CONFIGS = $(wildcard CMakeLists.txt **/CMakeLists.txt)
 CLANG_FORMAT_CACHE_FOLDER = $(CACHE_DIR)/clang-format
 CLANG_FORMAT_CACHE_FILES = $(foreach x,$(CODES),$(CLANG_FORMAT_CACHE_FOLDER)/$(x).label)
 
-.PHONY: validate cmake tests format clean
-all: validate
+.PHONY: all cmake cmake-fast format test it lint clean all-formatted build-all
+all: format test it lint
 
-validate: format tests
-format: cmake $(CLANG_FORMAT_CACHE_FILES)
-cmake: $(BUILD_DIR)
+cmake: $(CONFIGS) $(SOURCES) .clang-tidy
+	cmake -B $(BUILD_DIR) $(CMAKE_OPTIONS)
 
-tests: cmake $(CODES)
-	cmake --build $(BUILD_DIR) -t $(TESTS_TARGET) $(CMAKE_BUILD_OPTIONS)
-	$(TESTS_EXECUTABLE) --order-by=rand
+cmake-fast: $(CONFIGS) $(SOURCES)
+	cmake -B $(FAST_BUILD_DIR) -D FAST=ON $(CMAKE_OPTIONS)
+
+format: $(CLANG_FORMAT_CACHE_FILES)
+
+test: TARGET = tests
+test: EXECUTABLE = $(FAST_BUILD_DIR)/bin/$(TARGET)
+test: cmake-fast $(CODES)
+	cmake --build $(FAST_BUILD_DIR) -t $(TARGET) $(CMAKE_BUILD_OPTIONS)
+	$(EXECUTABLE) --order-by=rand
+
+it: TARGET = it
+it: EXECUTABLE = $(FAST_BUILD_DIR)/bin/$(TARGET)
+it: cmake-fast $(CODES)
+	cmake --build $(FAST_BUILD_DIR) -t $(TARGET) $(CMAKE_BUILD_OPTIONS)
+	$(EXECUTABLE) --order-by=rand
+
+lint: all-formatted build-all
 
 clean:
 	cmake -D PATH:STRING=$(BUILD_DIR) -P ./cmake/rm.cmake
 
-$(BUILD_DIR): $(CONFIGS) $(SOURCES) .clang-tidy
-	cmake -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=$(MODE) $(CMAKE_OPTIONS)
+all-formatted:
+	clang-format --dry-run -Werror $(CODES)
+
+build-all: cmake
+	cmake --build $(BUILD_DIR) $(CMAKE_BUILD_OPTIONS)
 
 $(CACHE_DIR):
 	cmake -D PATH:STRING=$(CACHE_DIR) -P ./cmake/mkdir-p.cmake
