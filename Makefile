@@ -18,7 +18,7 @@ CLANG_FORMAT_CACHE_FILES = $(foreach x,$(CODES),$(CLANG_FORMAT_CACHE_FOLDER)/$(x
 all: format test it lint
 
 cmake: $(CONFIGS) $(SOURCES) .clang-tidy
-	cmake -B $(BUILD_DIR) $(CMAKE_OPTIONS)
+	cmake -B $(BUILD_DIR) -DCMAKE_EXPORT_COMPILE_COMMANDS=ON $(CMAKE_OPTIONS)
 
 cmake-fast: $(CONFIGS) $(SOURCES)
 	cmake -B $(FAST_BUILD_DIR) -D FAST=ON $(CMAKE_OPTIONS)
