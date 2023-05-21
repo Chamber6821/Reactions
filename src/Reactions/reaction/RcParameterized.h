@@ -12,6 +12,7 @@
 #include <concepts>
 #include <functional>
 #include <tuple>
+#include <utility>
 
 template <class... Args>
 class RcParameterized : public Reaction {
@@ -25,9 +26,10 @@ class RcParameterized : public Reaction {
     }
 
   public:
-    explicit RcParameterized(in<Parameter<Args>>... parameters,
-                             decltype(func) func)
-        : parameters(parameters...), func(func) {}
+    explicit RcParameterized(
+        in<Parameter<Args>>... parameters, decltype(func) func
+    )
+        : parameters(parameters...), func(std::move(func)) {}
 
     auto result(in<Command> command) -> out<Response> override {
         return std::apply(

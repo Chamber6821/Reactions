@@ -7,6 +7,8 @@
 #include "Reactions/Response.h"
 #include "Reactions/misc/Scalar.h"
 #include "Reactions/misc/StringOf.h"
+#include "Reactions/misc/owning/in.h"
+#include "Reactions/misc/owning/make.h"
 #include <iostream>
 #include <string_view>
 
