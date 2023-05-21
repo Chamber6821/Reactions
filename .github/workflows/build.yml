@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: cmake-build-*/
-          key: cmake-${{ steps.branches.output.current_branch }}-${{ runner.os }}-${{ matrix.config }}
+          key: cmake-${{ steps.branches.outputs.current_branch }}-${{ runner.os }}-${{ matrix.config }}
       - name: Configure CMake
         run: make cmake CONFIG=${{ matrix.config }}
       - name: Build and Run tests
@@ -37,5 +37,5 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: cmake-build-*/
-          key: ${{ steps.cache.output.cache-primary-key }}
+          key: ${{ steps.cache.outputs.cache-primary-key }}
 
