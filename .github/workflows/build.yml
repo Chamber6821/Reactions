@@ -60,4 +60,3 @@ jobs:
             || contains(needs.*.result, 'skipped')
           }}
         run: exit 1
-
