@@ -31,7 +31,7 @@ jobs:
       - name: Configure CMake for tests
         run: make cmake-fast CONFIG=${{ matrix.config }}
       - name: Build and Run tests
-        run: make tests CONFIG=${{ matrix.config }}
+        run: make test CONFIG=${{ matrix.config }}
       - name: Build and Run integration tests
         run: make it CONFIG=${{ matrix.config }}
       - name: Configure CMake for Lint
