@@ -7,11 +7,6 @@ on:
     branches:
       - master
 jobs:
-  check-has-Strawberry:
-    runs-on: windows-2022
-    steps:
-      - name: ls for C:/Strawberry
-        run: ls C:/Strawberry
   build:
     strategy:
       matrix:
@@ -24,6 +19,9 @@ jobs:
       - name: Get branch name
         id: branches
         uses: tj-actions/branch-names@v7
+      - name: Remove C:/Strawberry/c
+        if: ${{ contains(runner.os, 'windows') }}
+        run: rm -r -fo C:/Strawberry/c
       - name: Restore CMake build folders
         id: cache
         uses: actions/cache/restore@v3
