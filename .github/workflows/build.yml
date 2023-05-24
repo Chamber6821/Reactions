@@ -25,12 +25,14 @@ jobs:
         with:
           path: cmake-build-*/
           key: cmake-${{ steps.branches.outputs.current_branch }}-${{ runner.os }}-${{ matrix.config }}
-      - name: Configure CMake
-        run: make cmake CONFIG=${{ matrix.config }}
+      - name: Configure CMake for tests
+        run: make cmake-fast CONFIG=${{ matrix.config }}
       - name: Build and Run tests
         run: make tests CONFIG=${{ matrix.config }}
       - name: Build and Run integration tests
         run: make it CONFIG=${{ matrix.config }}
+      - name: Configure CMake for Lint
+        run: make cmake CONFIG=${{ matrix.config }}
       - name: Lint
         run: make lint CONFIG=${{ matrix.config }}
       - name: Save CMake build folder
