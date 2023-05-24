@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ windows-2019, ubuntu-22.04 ]
+        os: [ windows-2022, ubuntu-22.04 ]
         config: [ config/debug.mk, config/release.mk ]
     runs-on: ${{ matrix.os }}
     steps:
