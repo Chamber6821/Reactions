@@ -19,7 +19,7 @@ jobs:
       - name: Get branch name
         id: branches
         uses: tj-actions/branch-names@v7
-      - name: Restore CMake build folder
+      - name: Restore CMake build folders
         id: cache
         uses: actions/cache/restore@v3
         with:
