@@ -7,7 +7,7 @@ on:
     branches:
       - master
 jobs:
-  build:
+  test:
     strategy:
       matrix:
         os: [ windows-2022, ubuntu-22.04 ]
@@ -19,33 +19,27 @@ jobs:
       - name: Get branch name
         id: branches
         uses: tj-actions/branch-names@v7
-      - name: Restore CMake build folders
+      - name: Restore CMake build folder
         id: cache
         uses: actions/cache/restore@v3
         with:
           path: cmake-build-*/
-          key: cmake-${{ steps.branches.outputs.current_branch }}-${{ runner.os }}-${{ matrix.config }}
-      - name: Configure CMake for tests
-        run: make cmake-fast CONFIG=${{ matrix.config }}
+          key: test-${{ steps.branches.outputs.current_branch }}-${{ runner.os }}-${{ matrix.config }}
       - name: Build and Run tests
         run: make test CONFIG=${{ matrix.config }}
       - name: Build and Run integration tests
         run: make it CONFIG=${{ matrix.config }}
-      - name: Configure CMake for Lint
-        run: make cmake CONFIG=${{ matrix.config }}
-      - name: Lint
-        run: make lint CONFIG=${{ matrix.config }}
       - name: Save CMake build folder
         uses: actions/cache/save@v3
         with:
           path: cmake-build-*/
           key: ${{ steps.cache.outputs.cache-primary-key }}
   # see https://github.com/orgs/community/discussions/26822#discussioncomment-3305794
-  build-successful:
+  all-tested:
     if: ${{ always() }}
-    runs-on: ubuntu-latest
-    name: build (matrix)
-    needs: [ build ]
+    runs-on: ubuntu-latest # version don't care
+    name: all-tested
+    needs: [ test ]
     steps:
       - run: exit 1
         # see https://stackoverflow.com/a/67532120/4907315
@@ -54,3 +48,31 @@ jobs:
                contains(needs.*.result, 'failure')
             || contains(needs.*.result, 'cancelled')
           }}
+  lint:
+    strategy:
+      matrix:
+        os: [ ubuntu-22.04 ]
+        config: [ config/debug.mk, config/release.mk ]
+    runs-on: ${{ matrix.os }}
+    name: Lint
+    needs: all-tested
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get branch name
+        id: branches
+        uses: tj-actions/branch-names@v7
+      - name: Restore CMake build folder
+        id: cache
+        uses: actions/cache/restore@v3
+        with:
+          path: cmake-build-*/
+          key: lint-${{ steps.branches.outputs.current_branch }}-${{ runner.os }}-${{ matrix.config }}
+      - name: Lint
+        run: make lint CONFIG=${{ matrix.config }}
+      - name: Save CMake build folder
+        uses: actions/cache/save@v3
+        with:
+          path: cmake-build-*/
+          key: ${{ steps.cache.outputs.cache-primary-key }}
+
