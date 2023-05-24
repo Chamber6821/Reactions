@@ -7,7 +7,8 @@ on:
     branches:
       - master
 jobs:
-  build:
+  test:
+    name: Test
     strategy:
       matrix:
         os: [ windows-2022, ubuntu-22.04 ]
@@ -16,26 +17,46 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Get branch name
-        id: branches
-        uses: tj-actions/branch-names@v7
-      - name: Restore CMake build folder
-        id: cache
-        uses: actions/cache/restore@v3
+      - name: Cache CMake build folder
+        uses: actions/cache@v3
         with:
           path: cmake-build-*/
-          key: cmake-${{ steps.branches.outputs.current_branch }}-${{ runner.os }}-${{ matrix.config }}
-      - name: Configure CMake
-        run: make cmake CONFIG=${{ matrix.config }}
-      - name: Build and Run tests
-        run: make tests CONFIG=${{ matrix.config }}
+          key: ${{ runner.os }}-${{ github.job }}-${{ matrix.config }}
+      - name: Build and Run unit tests
+        run: make test CONFIG=${{ matrix.config }}
       - name: Build and Run integration tests
         run: make it CONFIG=${{ matrix.config }}
-      - name: Lint
-        run: make lint CONFIG=${{ matrix.config }}
-      - name: Save CMake build folder
-        uses: actions/cache/save@v3
+  lint:
+    name: Lint
+    strategy:
+      matrix:
+        os: [ ubuntu-22.04 ]
+        config: [ config/debug.mk, config/release.mk ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cache CMake build folder
+        uses: actions/cache@v3
         with:
           path: cmake-build-*/
-          key: ${{ steps.cache.outputs.cache-primary-key }}
-
+          key: ${{ runner.os }}-${{ github.job }}-${{ matrix.config }}
+      - name: Lint
+        run: make lint CONFIG=${{ matrix.config }}
+  # see https://github.com/orgs/community/discussions/26822#discussioncomment-5122101
+  complete:
+    name: Complete CI
+    needs: [ test, lint ]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check all job status
+        # see https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#needs-context
+        # see https://stackoverflow.com/a/67532120/4907315
+        if: >-
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+            || contains(needs.*.result, 'skipped')
+          }}
+        run: exit 1
