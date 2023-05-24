@@ -40,4 +40,17 @@ jobs:
         with:
           path: cmake-build-*/
           key: ${{ steps.cache.outputs.cache-primary-key }}
-
+  # see https://github.com/orgs/community/discussions/26822#discussioncomment-3305794
+  build-successful:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: build (matrix)
+    needs: [ build ]
+    steps:
+      - run: exit 1
+        # see https://stackoverflow.com/a/67532120/4907315
+        if: |
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}
