@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Scalar.h"
-#include <string_view>
+#include <string>
 #include <utility>
 
 class StringOf : public Scalar<std::string_view> {
