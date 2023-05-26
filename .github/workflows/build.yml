@@ -41,6 +41,10 @@ jobs:
         with:
           path: cmake-build-*/
           key: ${{ runner.os }}-${{ github.job }}-${{ matrix.config }}
+      - name: Install clang-tidy
+        run: |
+          sudo apt-get install -y clang-tidy-16
+          sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 100
       - name: Lint
         run: make lint CONFIG=${{ matrix.config }}
   # see https://github.com/orgs/community/discussions/26822#discussioncomment-5122101
