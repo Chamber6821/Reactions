@@ -41,12 +41,16 @@ jobs:
         with:
           path: cmake-build-*/
           key: ${{ runner.os }}-${{ github.job }}-${{ matrix.config }}
-      - name: Update clang-tidy
+      - name: Add repo for LLVM 16
         run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 16
-          sudo apt install clang-format-16
+          wget https://apt.llvm.org/llvm-snapshot.gpg.key
+          sudo apt-key add llvm-snapshot.gpg.key
+          sudo add-apt-repository 'deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main'
+          sudo apt update
+      - name: Install clang-tidy-16
+        run: |
+          sudo apt install clang-tidy-16
+          ln -s `which clang-tidy-16` /usr/local/bin/clang-tidy
       - name: Clang-tidy version
         run: clang-tidy --version
       - name: Lint
