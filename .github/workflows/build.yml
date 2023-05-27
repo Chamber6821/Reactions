@@ -42,7 +42,11 @@ jobs:
           path: cmake-build-*/
           key: ${{ runner.os }}-${{ github.job }}-${{ matrix.config }}
       - name: Update clang-tidy
-        run: sudo apt-get install -y clang-tidy
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 16
+          sudo apt install clang-format-16
       - name: Clang-tidy version
         run: clang-tidy --version
       - name: Lint
