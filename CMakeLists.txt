@@ -22,7 +22,7 @@ endif ()
 
 if (${MAIN_PROJECT} AND (NOT DEFINED FAST OR NOT ${FAST}))
     find_program(CLANG_TIDY NAMES "clang-tidy" REQUIRED)
-    set(CLANG_TIDY_COMMAND "${CLANG_TIDY};-fix-errors;-p;${CMAKE_CURRENT_BINARY_DIR}")
+    set(CLANG_TIDY_COMMAND "${CLANG_TIDY};--fix-errors;--use-color;-p;${CMAKE_CURRENT_BINARY_DIR}")
     set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY_COMMAND})
 endif ()
 

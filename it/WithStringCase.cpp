@@ -1,5 +1,5 @@
 //
-// Created by Ivan on 10.05.2023.
+// Created by Ivan051N1N on 10.05.2023.
 //
 
 #include "Reactions/misc/owning/make.h"
@@ -16,6 +16,6 @@ TEST_SUITE("Internal UB") {
         std::stringstream buffer;
         text->print(buffer);
 
-        //REQUIRE(buffer.view() == "Long string");
+        REQUIRE(buffer.view() == "Long string");
     }
 }
