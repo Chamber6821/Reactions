@@ -17,7 +17,7 @@ class StringOf : public Scalar<std::string_view> {
     explicit StringOf(std::string_view view) : string(view) {}
 
     StringOf(std::string::const_iterator begin, std::string::const_iterator end)
-        : StringOf(std::string{std::move(begin), std::move(end)}) {}
+        : StringOf(std::string{begin, end}) {}
 
     StringOf(
         std::string_view::const_iterator begin,
