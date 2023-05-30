@@ -18,7 +18,7 @@ class ShooterReaction : public Reaction {
         : message(std::move(message)) {}
 
     auto result(in<Command> /*unused*/) -> out<Response> override {
-        return makeOut<RsMapped>([this](auto&) {
+        return makeOut<RsMapped>([this](auto &) {
             throw std::runtime_error(message);
         });
     }
