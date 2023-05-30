@@ -7,6 +7,7 @@
 #include "Reactions/Reaction.h"
 #include "Reactions/misc/owning/makeOut.h"
 #include "Reactions/response/RsError.h"
+#include "Reactions/response/RsMapped.h"
 
 class RcNothrow : public Reaction {
     in<Reaction> wrapped{};
@@ -15,10 +16,12 @@ class RcNothrow : public Reaction {
     explicit RcNothrow(in<Reaction> wrapped) : wrapped(std::move(wrapped)) {}
 
     auto result(in<Command> command) -> out<Response> override {
-        try {
-            return wrapped->result(command);
-        } catch (const std::exception &e) {
-            return makeOut<RsError>(e);
-        }
+        return makeOut<RsMapped>([=, *this](auto &output) {
+            try {
+                wrapped->result(command)->print(output);
+            } catch (const std::exception &e) {
+                return RsError(e).print(output);
+            }
+        });
     }
 };
