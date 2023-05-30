@@ -4,8 +4,8 @@
 
 #include "Reactions/command/NthArg.h"
 #include "../doctest-nolint.h"
-#include "Reactions/misc/owning/make.h"
 #include "Reactions/command/CmLive.h"
+#include "Reactions/misc/owning/make.h"
 #include <string>
 
 TEST_SUITE("NthArg") {
