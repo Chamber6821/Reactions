@@ -10,6 +10,7 @@ jobs:
   test:
     name: Test
     strategy:
+      fail-fast: false
       matrix:
         os: [ windows-2022, ubuntu-22.04 ]
         config: [ config/debug.mk, config/release.mk ]
