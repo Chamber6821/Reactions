@@ -17,8 +17,9 @@ CLANG_FORMAT_CACHE_FILES = $(foreach x,$(CODES),$(CLANG_FORMAT_CACHE_FOLDER)/$(x
 .PHONY: all cmake cmake-fast format test it lint clean all-formatted build-all
 all: format test it lint
 
+# Unix Makefiles because CMAKE_EXPORT_COMPILE_COMMAND supported by Makefiles and Ninja
 cmake: $(CONFIGS) $(SOURCES) .clang-tidy
-	cmake -B $(BUILD_DIR) -DCMAKE_EXPORT_COMPILE_COMMANDS=ON $(CMAKE_OPTIONS)
+	cmake -B $(BUILD_DIR) -G "Unix Makefiles" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON $(CMAKE_OPTIONS)
 
 cmake-fast: $(CONFIGS) $(SOURCES)
 	cmake -B $(FAST_BUILD_DIR) -D FAST=ON $(CMAKE_OPTIONS)

@@ -5,17 +5,25 @@
 #pragma once
 
 #include "Scalar.h"
-#include <string_view>
+#include <string>
+#include <utility>
 
 class StringOf : public Scalar<std::string_view> {
-    std::string_view view;
+    std::string string;
 
   public:
-    explicit StringOf(std::string_view view) : view(view) {}
+    explicit StringOf(std::string string) : string(std::move(string)) {}
 
-    StringOf(std::string_view::const_iterator begin,
-             std::string_view::const_iterator end)
+    explicit StringOf(std::string_view view) : string(view) {}
+
+    StringOf(std::string::const_iterator begin, std::string::const_iterator end)
+        : StringOf(std::string{begin, end}) {}
+
+    StringOf(
+        std::string_view::const_iterator begin,
+        std::string_view::const_iterator end
+    )
         : StringOf(std::string_view{begin, end}) {}
 
-    auto value() -> std::string_view override { return view; }
+    auto value() -> std::string_view override { return string; }
 };
