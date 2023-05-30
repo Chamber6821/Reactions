@@ -6,11 +6,11 @@
 
 #include "Reactions/Parameter.h"
 
-class PrString : public Parameter<std::string_view> {
+class PrString : public Parameter<std::string> {
   public:
     PrString() = default;
 
-    auto valueOf(in<Argument> argument) -> std::string_view override {
+    auto valueOf(in<Argument> argument) -> std::string override {
         return argument->value();
     }
 };
