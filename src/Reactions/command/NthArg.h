@@ -15,5 +15,5 @@ class NthArg : public Argument {
   public:
     explicit NthArg(in<Command> command, int number);
 
-    auto value() -> std::string_view override;
+    auto value() -> std::string override;
 };

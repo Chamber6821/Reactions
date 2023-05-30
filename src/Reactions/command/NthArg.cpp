@@ -13,7 +13,7 @@
 NthArg::NthArg(in<Command> command, int number)
     : command(std::move(command)), number(number) {}
 
-auto NthArg::value() -> std::string_view {
+auto NthArg::value() -> std::string {
     try {
         if (number < 0)
             throw std::invalid_argument(
@@ -25,7 +25,7 @@ auto NthArg::value() -> std::string_view {
             word = FirstWord(make<LeftTrimmed>(
                 make<StringOf>(word.value().end(), arguments.end())));
         }
-        return word.value();
+        return std::string(word.value());
     } catch (...) {
         std::throw_with_nested(std::invalid_argument(
             "Failed to get " + std::to_string(number) + "th argument"));
